@@ -15,6 +15,11 @@ env/
 *.pth
 *.ckpt
 
+# Output and error files
+*.out
+*.err
+*.sbatch
+
 # Specific files to ignore
 DELETE_HUGGINGFACE_FILE_GUIDE.md
 UPLOAD_CHECKPOINT.md
