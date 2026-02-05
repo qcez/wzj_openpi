@@ -1,0 +1,15 @@
+# Basic experiment configuration (keep unchanged)
+policy_name: null
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# Add Parameters You Need
+
+train_config_name: pi05_base_aloha_robotwin_lora
+model_name: beat_hammer_pi05_bs32
+checkpoint_id: 29999
+# checkpoint_id: 30000_convert
+pi0_step: 8

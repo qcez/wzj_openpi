@@ -1,0 +1,15 @@
+# Basic experiment configuration (keep unchanged)
+policy_name: null
+task_name: null
+task_config: null
+ckpt_setting: null
+seed: null
+instruction_type: unseen
+
+# Add Parameters You Need
+
+train_config_name: pi0_base_aloha_robotwin_full_torch
+model_name: robotwin_aloha_lerobot
+checkpoint_id: 145000
+# checkpoint_id: 30000_convert
+pi0_step: 8
