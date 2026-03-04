@@ -132,8 +132,9 @@ def create_empty_dataset(
 
 def load_episode_part(file_name):
     try:
-        episode_part_file = os.path.join('tmp_data', file_name)
-        with open(episode_part_file, 'rb') as f:
+        # episode_part_file = os.path.join('tmp_data', file_name)
+        # with open(episode_part_file, 'rb') as f:
+        with open(file_name, 'rb') as f:
             data = pickle.load(f)
 
             return data['results']
@@ -142,14 +143,14 @@ def load_episode_part(file_name):
         return None
 def main():
     dataset = create_empty_dataset(
-        repo_id="beat_block_hammer_rollout",
+        repo_id="adjust_bottle_rollout",
         robot_type= "aloha",
         mode='image',
         has_effort=True,
         has_velocity=True,
         dataset_config=DEFAULT_DATASET_CONFIG,
     )
-    data = load_episode_part('beat_block_hammer_rollout_1.pkl')
+    data = load_episode_part('/project/peilab/wzj/RoboTwin/rollout_result/adjust_bottle/openpi_test/demo_clean/robotwin_aloha_lerobot/2026-03-04_19:49:32/adjust_bottle_rollout.pkl')
     if data is not None:
         for trajectory in tqdm.tqdm(data, desc="Trajectories"):
             for sample in trajectory['trajectory']:
