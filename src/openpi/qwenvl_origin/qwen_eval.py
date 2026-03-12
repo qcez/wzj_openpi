@@ -13,6 +13,7 @@ from collections import defaultdict
 
 project_root = Path(__file__).parent.parent.parent
 sys.path.append(str(project_root))
+
 # from trainer import replace_qwen2_vl_attention_class
 
 from transformers import (

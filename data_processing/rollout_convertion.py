@@ -83,6 +83,11 @@ def create_empty_dataset(
             'dtype' : 'uint8',
             'shape' : (1, ),
             'names' : ['result'],
+        },
+        'episode_length': {
+            'dtype': 'int64',
+            'shape': (1,),
+            'names': ['episode_length'],
         }
     }
 
@@ -143,14 +148,14 @@ def load_episode_part(file_name):
         return None
 def main():
     dataset = create_empty_dataset(
-        repo_id="adjust_bottle_rollout",
+        repo_id="a5",
         robot_type= "aloha",
         mode='image',
         has_effort=True,
         has_velocity=True,
         dataset_config=DEFAULT_DATASET_CONFIG,
     )
-    data = load_episode_part('/project/peilab/wzj/RoboTwin/rollout_result/adjust_bottle/openpi_test/demo_clean/robotwin_aloha_lerobot/2026-03-04_19:49:32/adjust_bottle_rollout.pkl')
+    data = load_episode_part('/project/peilab/wzj/RoboTwin/rollout_result/click_alarmclock/openpi_test/demo_clean/robotwin_aloha_lerobot/2026-03-04_20:33:09/click_alarmclock_rollout.pkl')
     if data is not None:
         for trajectory in tqdm.tqdm(data, desc="Trajectories"):
             for sample in trajectory['trajectory']:
@@ -170,6 +175,7 @@ def main():
                     'reward': torch.tensor([int(sample['reward'])], dtype=torch.uint8),
                     'result': torch.tensor([int(trajectory['result'])], dtype=torch.uint8),
                     'task' : sample['observation']['prompt'],
+                    'episode_length': torch.tensor([sample['episode_length']], dtype=torch.int64),
                 }
                 dataset.add_frame(tmp_sample)
             dataset.save_episode()
