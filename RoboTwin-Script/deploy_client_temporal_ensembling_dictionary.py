@@ -446,7 +446,7 @@ class InferController:
             if already_inferred:
                 rate.sleep()
                 continue
-            print("==================================================================================================================================c", c, f"耗时{c-b:.6f}秒")
+
             result = ros_operator.get_frame()
             if not isinstance(result, tuple) or len(result) < 6:
                 if print_flag_local:
