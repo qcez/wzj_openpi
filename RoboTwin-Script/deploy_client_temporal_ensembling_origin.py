@@ -60,7 +60,6 @@ def temporal_ensembled_action(current_time):
     exp_weights = (exp_weights / exp_weights.sum())[:, None]
     sub_action = (cur_actions * exp_weights).sum(axis=0)
     print("======================================================================= len(exp_weights),len(indices),len(cur_actions)",len(exp_weights),len(indices),len(cur_actions))
-    print("=============================================================================================================sub_action",len(sub_action),sub_action)
     return sub_action
 
 # def temporal_ensembled_action(current_time):
@@ -85,7 +84,6 @@ def temporal_ensembled_action(current_time):
 #     exp_weights = (exp_weights / exp_weights.sum())[:, None]
 #     sub_action = (cur_actions * exp_weights).sum(axis=0)
 #     print("======================================================================= len(exp_weights),len(indices),len(cur_actions)",len(exp_weights),len(valid_mask),len(cur_actions))
-#     print("=============================================================================================================sub_action",len(sub_action),sub_action)
 #     return sub_action
 
 def _enqueue_chunk_to_expected_queues(chunk, _schedule_cursor):
@@ -463,19 +461,13 @@ class InferController:
         rate = rospy.Rate(50)  
         print_flag_local = True
         while not _action_stop_event.is_set() and not rospy.is_shutdown():
-            a=time.time()
             with _action_lock:
                 _schedule_cursor = _control_t
-            b=time.time()
-            print("==================================================================================================================================b", b, f"耗时{b-a:.6f}秒")
             if _Action_Infered_Sign[_schedule_cursor] == 1:
                 # rate.sleep()
                 continue
-            c=time.time()
-            print("==================================================================================================================================c", c, f"耗时{c-b:.6f}秒")
             result = ros_operator.get_frame()
-            d=time.time()
-            print("==================================================================================================================================d", d, f"耗时{d-c:.6f}秒")
+
             if not isinstance(result, tuple) or len(result) < 6:
                 if print_flag_local:
                     print("async syn fail")
@@ -483,12 +475,8 @@ class InferController:
                 rate.sleep()
                 continue
             print_flag_local = True
-            e=time.time()
-            
             
             (img_h,img_l, img_r, img_h_depth, img_l_depth, img_r_depth) = result
-            f=time.time()
-            print("====================================================================================================================================f", f, f"耗时{f-d:.6f}秒")
             # resize before send to server
             img_h_processed = image_tools.convert_to_uint8(
                 image_tools.resize_with_pad(img_h,224,224).transpose(2,0,1)
@@ -499,8 +487,6 @@ class InferController:
             img_r_processed = image_tools.convert_to_uint8(
                 image_tools.resize_with_pad(img_r,224,224).transpose(2,0,1)
             )
-            g=time.time()
-            print("======================================================================================================================================g", g, f"耗时{g-f:.6f}秒")
             # img_h_processed = image_tools.convert_to_uint8(
             #     img_h.transpose(2,0,1)
             # )
@@ -530,8 +516,6 @@ class InferController:
             except Exception as e:
                 print(f"Inference error: {e}")
             rate.sleep()
-            h=time.time()
-            print("================================================================================================================================h", h, f"耗时{h-g:.6f}秒")
     def _cleanup(self):
         """程序退出时的清理工作（统一管理）"""
         print("\n正在退出...")
